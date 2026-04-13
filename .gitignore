@@ -131,3 +131,6 @@ dmypy.json
 # Claude Code
 CLAUDE.md
 .claude/
+
+# planning documentation
+docs/design
