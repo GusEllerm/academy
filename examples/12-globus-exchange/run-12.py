@@ -75,11 +75,19 @@ async def main() -> int:
     async with await Manager.from_exchange_factory(
         factory=factory,
     ) as manager:
-        greeter = await manager.launch(Greeter)
-        shouter = await manager.launch(Shouter)
+
+        regs = await manager.register_agents([
+            (Greeter, None),
+            (Shouter, None),
+            (Coordinator, None),
+        ])
+
+        greeter = await manager.launch(Greeter, registration=regs[0])
+        shouter = await manager.launch(Shouter, registration=regs[1])
         coordinator = await manager.launch(
             Coordinator,
             args=(greeter, shouter),
+            registration=regs[2],
         )
 
         result = await coordinator.greet_loudly('Academy')
